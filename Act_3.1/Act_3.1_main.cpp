@@ -25,6 +25,7 @@ class BST{
     public:
         BST() : Root(NULL) {}
         ~BST() {
+            cout << "~Destructor" << endl;
             DeleteAll(Root);
         }
         void insert(int &value) { insert(value, Root); }
@@ -123,23 +124,18 @@ int BST::height(Node* currentNode){
 //Funcion Ancestors
 void BST::ancestors(Node* currentNode, int value, vector<int> vect){
     if (currentNode == NULL)
-        cout << " " << endl;
+        return;
     else{
-        if (value < currentNode->data){
+        vect.push_back(currentNode->data);
+        if (value == currentNode->data){
+            for (int i = 0; i < vect.size() - 1; i++)
+                cout << vect[i] << " ";
+            return;
+        }
+        else if (value < currentNode->data)
             ancestors(currentNode->left, value, vect);
-        }
-        else if (value > currentNode->data){
+        else if (value > currentNode->data)
             ancestors(currentNode->right, value, vect);
-        }
-        else{
-            if (vect.size() != 0){
-                for (int i = 0; i < vect.size(); i++){
-                    cout << vect[i] << " ";
-                }
-            }
-            else 
-                cout << "El valor no tiene ancestros" << endl;
-        }
     }
 }
 
@@ -155,6 +151,7 @@ int BST::whatlevelamI(Node* currentNode, int value, int level){
         else if (value > currentNode->data)
             return whatlevelamI(currentNode->right, value, level + 1);
     }
+    return -1;
 }
 
 //Funcion DeleteAll
@@ -194,9 +191,9 @@ int main(){
         A2.insert(i);
     }
     A2.visit(1);
-    A1.visit(2);
-    A1.visit(3);
-    A1.visit(4);
+    A2.visit(2);
+    A2.visit(3);
+    A2.visit(4);
     cout << "\nAltura del arbol: " << A2.height() << endl;
     cout << "Ancestros del valor 4: ";
     A2.ancestors(4);
@@ -209,9 +206,9 @@ int main(){
     vector <int> v3 = {9};
     A3.insert(v3[0]);
     A3.visit(1);
-    A1.visit(2);
-    A1.visit(3);
-    A1.visit(4);
+    A3.visit(2);
+    A3.visit(3);
+    A3.visit(4);
     cout << "\nAltura del arbol: " << A3.height() << endl;
     cout << "Ancestros del valor 9: ";
     A3.ancestors(9);
